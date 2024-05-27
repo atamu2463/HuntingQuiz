@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>いすみジビエクイズ</title>
+    <meta description="いすみ市や獣害・ジビエについて学べるクイズです。">
+    <link rel="stylesheet" href="CSS/style.css">
+</head>
+<body>
+    <section class="page-title">
+    <h1>いすみジビエクイズ</h1>
+    </section>
+    <section class="quiz_box">
+        <div class="answer_correct"><div class="maru"></div></div>
+        <div class="answer_incorrect"><div class="cross"></div></div>
+        <div class="answer_result">
+            <h2 class="answer_result_title">結果発表！</h2>
+            <div class="answer_result_text"></div>
+        </div>
+        <div class="question_number" id="js-number"></div>
+        <h2 class="question" id="js-question"></h2>
+        <div class="answer_box">
+            <button class="answer" class="js-answer"></button>
+            <button class="answer" class="js-answer"></button>
+            <button class="answer" class="js-answer"></button>
+            <button class="answer" class="js-answer"></button>
+        </div>
+    </section>
+
+    <div class="characterBox">
+        <div class="kyon">
+            <p class="photoBox"><img src="img/kyon-kun.png" alt="キョンくん" id="kyon-img" /></p>
+            <p class="charLine charLineR " id="kyon-word">がんばって！</p>
+        </div>
+    </div>    
+
+    <script src="JS/quiz.js"></script>
+    <script src="JS/script.js"></script>
+</body>
+</html>
