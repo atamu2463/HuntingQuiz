@@ -142,11 +142,7 @@
   .quiz_box .answer_box .answer:hover {
     background-color: red;
     border: solid 1px #000000;
-    width: 40%;
-    margin-top: 20px;
-    margin-right: 10px;
-    margin-left: 10px;
-    padding: 10px;
+   
     cursor: pointer;
   }
 
@@ -201,4 +197,44 @@
     top: -15px;
   }
 
-  
+  @media screen and (max-width: 414px) {
+  .quiz_box {
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .quiz_box .answer_box {
+    width: 90%;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .quiz_box .answer_box .answer {
+    width: 80%;
+    margin: 10px 0;
+  }
+.charLine {
+    position: static;
+    margin: 0 10px 0 0; 
+    text-align: left; 
+    max-width: 60%; 
+  }
+  .charLineR {
+   display: none;
+  }
+  .characterBox {
+    flex-direction: row;
+    justify-content: center; 
+    align-items: center;
+    margin: 20px auto 0;
+    margin-right: 0;
+  }
+ .teacher {
+    width: 100px;
+    margin: 0;
+  }
+
+  .teacher img {
+    width: 100%;
+  }
+}
