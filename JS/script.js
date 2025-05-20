@@ -1,12 +1,10 @@
-// ===== グローバル変数・定数 =====
-let currentQuizIndex = 0;                        // 現在のクイズ番号
-const totalQuizCount = quiz.length;               // クイズの総数
-let correctAnswerCount = 0;                       // 正解数
-
+const totalQuizCount = quiz.length;   
 const kyonMessage = document.getElementById('kyon-word'); // セリフ表示用
 const answerButtons = document.querySelectorAll('.answer'); // 選択肢ボタン
 const answerButtonCount = answerButtons.length;             // ボタン数
-// ==============================
+
+let currentQuizIndex = 0;                       
+let correctAnswerCount = 0;  
 
 // 問題の出力
 const renderQuiz = () => {
@@ -24,6 +22,7 @@ const renderQuiz = () => {
         };
     });
 };
+renderQuiz();
 
 // 正解・不正解判定
 const judgeAnswer = (selectedButton) => {
@@ -57,7 +56,7 @@ const showResult = () => {
     const resultText = document.querySelector('.answer_result_text');
     resultBox.classList.add("active_result");
     resultText.innerHTML = `終了！<br>あなたの正解数は${correctAnswerCount}問/${totalQuizCount}問です！<br>
-        <div class="reset_box"><button class="reset_txt" id="reset_btn">最初からやり直す</button></div>`;
+        <div class="reset_box"><button class="reset_txt" id="reset_btn">リセット</button></div>`;
     kyonMessage.innerHTML = "おつかれさま！<br>またきてね！";
     // リセットボタンのイベントリスナー登録
     const resetBtn = document.getElementById('reset_btn');
@@ -76,6 +75,3 @@ const resetQuiz = () => {
     kyonMessage.innerHTML = "がんばって！";
     renderQuiz();
 };
-
-// 初期表示
-renderQuiz();
