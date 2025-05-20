@@ -1,67 +1,77 @@
-let quizCount = 0;
-        //クイズの数
-        const quizLength = quiz.length;
-        let score = 0;
+const totalQuizCount = quiz.length;   
+const kyonMessage = document.getElementById('kyon-word'); // セリフ表示用
+const answerButtons = document.querySelectorAll('.answer'); // 選択肢ボタン
+const answerButtonCount = answerButtons.length;             // ボタン数
 
-        //キョンのセリフの読み取り
-        let kyonWord = document.getElementById('kyon-word');
+let currentQuizIndex = 0;                       
+let correctAnswerCount = 0;  
 
-        //選択肢
-        const $button = document.querySelectorAll('.answer');
-        const buttonLength = $button.length
+// 問題の出力
+const renderQuiz = () => {
+    document.getElementById('js-question').innerHTML= quiz[currentQuizIndex].question.replace(/\n/g, '<br>');
+    document.getElementById('js-number').textContent = quiz[currentQuizIndex].questionNumber;
+    for (let i = 0; i < answerButtonCount; i++) {
+        answerButtons[i].textContent = quiz[currentQuizIndex].answers[i];
+    }
+    kyonMessage.innerHTML = "がんばって！";
 
-        //問題の出力
-        const setupQuiz = () => {
-            document.getElementById('js-question').textContent = quiz[quizCount].question
-            document.getElementById('js-number').textContent = quiz[quizCount].questionNumber
-            let buttonCount = 0;
-             while (buttonCount < buttonLength) {
-                $button[buttonCount].textContent = quiz[quizCount].answers[buttonCount]
-                buttonCount++;
-            kyonWord.innerHTML = "がんばって！";
-            }
-        }
-        setupQuiz();
- 
- 
-        let clickedCount = 0;
-        while (clickedCount < buttonLength) {
-            $button[clickedCount].addEventListener("click", function () {
-                const clickedAnswer = event.currentTarget
-                const answerCorrect = document.querySelector('.answer_correct');
-                const answerIncorrect = document.querySelector('.answer_incorrect');
-                const answerResult = document.querySelector('.answer_result');
-                const answerResultText = document.querySelector('.answer_result_text')
- 
-                if (quiz[quizCount].correct === clickedAnswer.textContent) {
-                    answerCorrect.classList.add("active_answer")
-                    setTimeout (function(){
-                        answerCorrect.classList.remove("active_answer")
-                    }, 1000);
-                    kyonWord.innerHTML = "すごい！正解！"
-                    score++;
-                }else {
-                    answerIncorrect.classList.add("active_answer")
-                    setTimeout (function(){
-                        answerIncorrect.classList.remove("active_answer")
-                    }, 1000);
-                    kyonWord.innerHTML = "残念...！不正解！"
-                };
- 
-                quizCount++;
+    // 選択肢ボタンのイベントリスナー登録
+    answerButtons.forEach(btn => {
+        btn.onclick = (event) => {
+            judgeAnswer(event.currentTarget);
+        };
+    });
+};
+renderQuiz();
 
-        
-                if (quizCount < quizLength) {
-                    setTimeout (function(){
-                    setupQuiz();
-                }, 1000);
-                }else {
-                    answerResult.classList.add("active_result")
-                    answerResultText.textContent = '終了！あなたの正解数は' + score + '問/' + quizLength + '問です！'
+// 正解・不正解判定
+const judgeAnswer = (selectedButton) => {
+    const correctEffect = document.querySelector('.answer_correct');
+    const incorrectEffect = document.querySelector('.answer_incorrect');
+    if (quiz[currentQuizIndex].correct === selectedButton.textContent) {
+        correctEffect.classList.add("active_answer");
+        setTimeout(() => {
+            correctEffect.classList.remove("active_answer");
+        }, 1000);
+        kyonMessage.innerHTML = "すごい！正解！";
+        correctAnswerCount++;
+    } else {
+        incorrectEffect.classList.add("active_answer");
+        setTimeout(() => {
+            incorrectEffect.classList.remove("active_answer");
+        }, 1000);
+        kyonMessage.innerHTML = "残念...！不正解！";
+    }
+    currentQuizIndex++;
+    if (currentQuizIndex < totalQuizCount) {
+        setTimeout(renderQuiz, 1000);
+    } else {
+        setTimeout(showResult, 1000);
+    }
+};
 
-                    kyonWord.innerHTML = "おつかれさま！<br>またきてね！"
-                    
-                
-            }});            
-            clickedCount++;
-        }
+// 結果発表
+const showResult = () => {
+    const resultBox = document.querySelector('.answer_result');
+    const resultText = document.querySelector('.answer_result_text');
+    resultBox.classList.add("active_result");
+    resultText.innerHTML = `終了！<br>あなたの正解数は${correctAnswerCount}問/${totalQuizCount}問です！<br>
+        <div class="reset_box"><button class="reset_txt" id="reset_btn">リセット</button></div>`;
+    kyonMessage.innerHTML = "おつかれさま！<br>またきてね！";
+    // リセットボタンのイベントリスナー登録
+    const resetBtn = document.getElementById('reset_btn');
+    if (resetBtn) {
+        resetBtn.onclick = resetQuiz;
+        resetBtn.style.display = "block";
+    }
+};
+
+// 初期画面に戻る
+const resetQuiz = () => {
+    currentQuizIndex = 0;
+    correctAnswerCount = 0;
+    document.querySelector('.answer_result').classList.remove("active_result");
+    document.querySelector('.answer_result_text').textContent = '';
+    kyonMessage.innerHTML = "がんばって！";
+    renderQuiz();
+};
